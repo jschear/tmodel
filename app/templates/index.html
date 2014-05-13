@@ -1,0 +1,24 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Topic Modeling{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="/">About</a></li>
+        <li><a href="select_corpus">Select a Corpus</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h1>Topic Modeling</h1>
+    <p>The start of (yet another!?) project aimed at helping humanists analyze large corpora using Topic Modeling.</p>
+    <p>Currently in development by <a href="github.com/jschear">Jonathan Schear</a> and Shreena Thakore, undergraduates at Brown University.</p>
+    <p>Begin by <a href="select_corpus">selecting a corpus.</a></p>
+</div>
+{% endblock %}

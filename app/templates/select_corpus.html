@@ -1,0 +1,29 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Topic Modeling{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav">
+        <li><a href="/">About</a></li>
+        <li class="active"><a href="select_corpus">Select a Corpus</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Select a Corpus</h1>
+
+    <form class="form form-horizontal" role="form" method="POST" action="/select_corpus">
+        {{ form.hidden_tag() }}
+        <p>{{ form.corpus.label }}: {{ form.corpus }}</p>
+        <p>{{ form.iterations.label }}: {{ form.iterations }}</p>
+        <p>{{ form.topics.label }}: {{ form.topics }}</p>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}
+
+
