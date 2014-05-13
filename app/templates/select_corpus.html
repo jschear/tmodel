@@ -6,8 +6,8 @@
   <div class="container">
     <ul class="nav navbar-nav">
         <li><a href="/">About</a></li>
-        <li class="active"><a href="select_corpus">Select a Corpus</a></li>
         <li><a href="saved_corpus">View a Saved Corpus</a></li>
+        <li class="active"><a href="select_corpus">Create a New Model</a></li>
     </ul>
   </div>
 </div>
@@ -17,6 +17,8 @@
 <div class="container">
     <h1>Select a Corpus</h1>
     <p>Eventually there will be a nice loading interface for long running jobs -- for now, just be aware that the server will take a while to respond, especially for large corpora and a high number of iterations!</p>
+
+    <p>The parameters below are fed to <a href="http://mallet.cs.umass.edu/">MALLET</a>, which runs <a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet Allocation</a> on the corpus to produce a set of topics.</p>
 
     <form class="form form-horizontal" role="form" method="POST" action="/select_corpus">
         {{ form.hidden_tag() }}

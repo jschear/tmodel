@@ -6,8 +6,8 @@
   <div class="container">
     <ul class="nav navbar-nav">
         <li><a href="/">About</a></li>
-        <li><a href="select_corpus">Select a Corpus</a></li>
         <li class="active"><a href="saved_corpus">View a Saved Corpus</a></li>
+        <li><a href="select_corpus">Create a New Model</a></li>
     </ul>
   </div>
 </div>
@@ -21,8 +21,8 @@
 
     <p>Here's a list of all the current saved corpora:</p>
     <ul>
-        {% for corpus in saved_corpora %}
-        <li><a href="saved_corpus/{{ corpus }}">{{ corpus }}</a></li>
+        {% for filename, description in saved_corpora %}
+        <li><a href="saved_corpus/{{ filename }}">{{ description[0] }}, {{ description[1] }} iterations, {{ description[2] }} topics</a></li>
         {% endfor %}
     </ul>
 </div>

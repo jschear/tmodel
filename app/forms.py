@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired
 
 class CorpusForm(Form):
     corpus = SelectField('Corpus')
-    iterations = IntegerField('Iterations', default = 500)
+    iterations = IntegerField('Iterations', default = 300)
     topics = IntegerField('Numer of Topics', default = 20)

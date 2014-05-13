@@ -1,1 +1,1 @@
-web: gunicorn heroku:app
+web: gunicorn -t 120 heroku:app
