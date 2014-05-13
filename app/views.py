@@ -50,10 +50,10 @@ def process_corpus(corpus_name, iterations, num_topics):
     word_in_topics = build_word_in_topics(topics)
 
     # print topic proportion for each document
-    # topics_in_docs = build_topics_in_docs(model, corpus)
+    topics_in_docs = build_topics_in_docs(model, corpus)
 
     return render_template('view_corpus.html', corpus=corpus_name, \
-        words_in_topics=word_in_topics, topic_strings=topic_strings) #, topics_in_docs=topics_in_docs)
+        words_in_topics=word_in_topics, topic_strings=topic_strings, topics_in_docs=topics_in_docs)
 
 def build_word_in_topics(topics):
     word_in_topics = []

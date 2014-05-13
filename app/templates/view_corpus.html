@@ -24,8 +24,11 @@
       {% endfor %}
     </ol>
 
-    <h3>Word Clouds</h2>
+    <h3>Word Clouds: Word in Topics</h2>
     <div id="clouds"></div>
+
+    <h3>Pie Charts: Topics in Documents</h2>
+    <div id="pies"></div>
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="static/js/d3.layout.cloud.js"></script>
@@ -40,56 +43,116 @@
         return parseFloat(d.value);
       };
 
-      for (var i = 0; i < word_in_topics.length; i++) {
-          var topic = word_in_topics[i]
+      function draw(words, num) {
+        var svg = d3.select("#clouds").append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-          // define scale for topic
-          var fontSize = d3.scale.log()
-              .domain([d3.min(topic, valOf), d3.max(topic, valOf)])
-              .range([14, 80]);
+        // the words
+        svg.append("g")
+            .attr("transform", "translate(" + width / 2 + ", " + height / 2 + ")")
+          .selectAll("text")
+            .data(words)
+          .enter().append("text")
+            .style("font-size", function(d) { return d.size + "px"; })
+            .style("font-family", "Sans-Serif")
+            .style("fill", function(d, i) { return fill(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function(d) {
+              return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function(d) { return d.text; });
 
-          d3.layout.cloud()
-              .size([width, height])
-              .timeInterval(10)
-              .words(topic)
-              .padding(5)
-              //.rotate(function() { return ~~(Math.random() * 5) * 30 - 30; })
-              .rotate(function() { return 0; })
-              .fontSize(function(d) { return fontSize(parseFloat(d.value)); })
-              .on("end", draw)
-              .start();
+        // the border
+        var borderPath = svg.append("rect")
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("height", height)
+          .attr("width", width)
+          .style("stroke", "black")
+          .style("fill", "none")
+          .style("stroke-width", "3");
 
-          function draw(words) {
-            var svg = d3.select("#clouds").append("svg")
-                .attr("width", width)
-                .attr("height", height);
-
-            // the words
-            svg.append("g")
-                .attr("transform", "translate(" + width / 2 + ", " + height / 2 + ")")
-              .selectAll("text")
-                .data(words)
-              .enter().append("text")
-                .style("font-size", function(d) { return d.size + "px"; })
-                .style("font-family", "Sans-Serif")
-                .style("fill", function(d, i) { return fill(i); })
-                .attr("text-anchor", "middle")
-                .attr("transform", function(d) {
-                  return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .text(function(d) { return d.text; });
-
-            // the border
-            var borderPath = svg.append("rect")
-              .attr("x", 0)
-              .attr("y", 0)
-              .attr("height", height)
-              .attr("width", width)
-              .style("stroke", "black")
-              .style("fill", "none")
-              .style("stroke-width", "3");
-          }
+          // the label
+        var topicLabel = svg.append("text")
+          .attr("x", width / 2)
+          .attr("y", height - 15)
+          .style("font-size", '20px')
+          .style("stroke-width", "6")
+          .style("font-family", "Sans-Serif")
+          .style("fill", "black")
+          .attr("text-anchor", "middle")
+          .text("Topic " + num)
       }
+
+      for (var i = 0; i < word_in_topics.length; i++) {
+        var topic = word_in_topics[i]
+
+        // define scale for topic
+        var fontSize = d3.scale.log()
+            .domain([d3.min(topic, valOf), d3.max(topic, valOf)])
+            .range([14, 80]);
+
+        d3.layout.cloud()
+            .size([width, height])
+            .words(topic)
+            .padding(5)
+            .rotate(function() { return 0; })
+            .fontSize(function(d) { return fontSize(parseFloat(d.value)); })
+            .on("end", function(words) {
+              draw(words, i);
+            })
+            .start();
+      }
+
+
+      // Pie Charts
+      var topics_in_docs = {{ topics_in_docs|tojson }};
+
+      var radius = Math.min(width, height) / 2;
+
+      var color = d3.scale.ordinal()
+        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+      var arc = d3.svg.arc()
+        .outerRadius(radius * 0.9)
+        .innerRadius(radius * 0.4);
+
+      for (var i = 0; i < topics_in_docs.length; i++) {
+        data = topics_in_docs[i]
+
+        var svg = d3.select("#pies")
+          .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var pie = d3.layout.pie()
+            .value(function(d) { return parseFloat(d.proportion); });
+
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+          .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", function(d) { return color(d.data.topic_num); });
+
+        g.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return d.data.topic_num; });
+
+        g.append("text")
+            .style("text-anchor", "middle")
+            .style("font-size", "14pt")
+            .style("stoke", "none")
+            .attr("dy", "7px")
+            .text("Document " + i);
+      };
     </script>
   </div>
 {% endblock %}
