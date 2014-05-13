@@ -27,11 +27,11 @@ def select_corpus():
         topics = form.topics.data
 
         # five above, five below
-        templates = [process_corpus(corpus, iterations, i) for i in range(topics - 5, topics + 5)]
-        return templates[5]
+        # templates = [process_corpus(corpus, iterations, i) for i in range(topics - 5, topics + 5)]
+        # return templates[5]
 
         # just the one
-        # return process_corpus(corpus, iterations, topics)
+        return process_corpus(corpus, iterations, topics)
 
     return render_template('select_corpus.html', form = form)
 
@@ -45,7 +45,7 @@ def recall_corpus(name_iter_topics=None):
             return render_template(template_name)
         not_found = True
 
-    filenames = os.listdir('app/templates/saved')
+    filenames = sorted(os.listdir('app/templates/saved'))
     filenames = map(lambda x: (x[:-5], x[:-5].split('_')), filenames)
     return render_template('corpus_not_found.html', saved_corpora=filenames, not_found=not_found)
 
