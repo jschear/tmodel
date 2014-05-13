@@ -9,6 +9,6 @@ CORPORA = {
     'Reuters (NLTK)': 'corpora/reuters/training/',
     'State of the Union (NLTK)': 'corpora/state_union/',
     'Gutenberg (NLTK)': 'corpora/gutenberg/',
-    'Shakespeare's Sonnets': corpora/sonnets/'
+    'Shakespeare\'s Sonnets': 'corpora/sonnets/'
 }
 
