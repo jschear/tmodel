@@ -7,6 +7,8 @@ MALLET_PATH = 'mallet-2.0.7/bin/mallet'
 # local corpora used for LDA
 CORPORA = {
     'Reuters (NLTK)': 'corpora/reuters/training/',
-    'State of the Unions (NLTK)': 'corpora/state_union/'
+    'State of the Union (NLTK)': 'corpora/state_union/',
+    'Gutenberg (NLTK)': 'corpora/gutenberg/',
+    'Shakespeare's Sonnets': corpora/sonnets/'
 }
 
