@@ -12,6 +12,12 @@ def iter_documents(directory):
             document = open(os.path.join(directory, fname)).read() # read each document as one big string
             yield utils.simple_preprocess(document) # parse document into a list of utf8 tokens
 
+def iter_plain_text_documents(directory):
+    """Iterate over documents, yielding one document at a time."""
+    for fname in os.listdir(directory):
+        if fname != 'README':
+            yield open(os.path.join(directory, fname)).read() # read each document as one big string
+
 class Corpus(object):
     def __init__(self, directory):
         self.directory = directory

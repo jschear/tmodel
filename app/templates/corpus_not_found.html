@@ -1,0 +1,31 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Topic Modeling{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav">
+        <li><a href="/">About</a></li>
+        <li><a href="select_corpus">Select a Corpus</a></li>
+        <li class="active"><a href="saved_corpus">View a Saved Corpus</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if not_found %}
+    <p>Sorry, the corpus you're attempting to view could not be found.</p>
+    {% endif %}
+
+    <p>Here's a list of all the current saved corpora:</p>
+    <ul>
+        {% for corpus in saved_corpora %}
+        <li><a href="saved_corpus/{{ corpus }}">{{ corpus }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+
